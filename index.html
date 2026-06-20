@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Canım Babam 💙</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+font-family:Arial;
+background:black;
+color:white;
+}
+
+.center{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+}
+
+/* INTRO */
+#intro{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+background:black;
+animation:fadeOut 4.5s forwards;
+}
+
+#intro h1{
+font-size:50px;
+color:#e50914;
+text-shadow:0 0 40px #e50914;
+}
+
+@keyframes fadeOut{
+0%{opacity:1}
+80%{opacity:1}
+100%{opacity:0;visibility:hidden}
+}
+
+/* PIN */
+#pinScreen{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:black;
+opacity:0;
+animation:show 4.8s forwards;
+}
+
+@keyframes show{to{opacity:1}}
+
+h2{
+font-size:20px;
+margin-bottom:15px;
+}
+
+#dots{
+font-size:28px;
+letter-spacing:8px;
+margin-bottom:20px;
+}
+
+.keypad{
+display:grid;
+grid-template-columns:repeat(3,70px);
+gap:10px;
+}
+
+.keypad button{
+padding:18px;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:rgba(255,255,255,0.1);
+color:white;
+cursor:pointer;
+}
+
+.keypad button:active{
+background:white;
+color:black;
+}
+
+/* GIFT */
+#giftScreen{
+display:none;
+width:100%;
+height:100%;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.giftArea{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:10px;
+margin-bottom:20px;
+}
+
+.giftIcon{
+font-size:60px;
+animation:float 2s ease-in-out infinite;
+filter:drop-shadow(0 0 10px gold);
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-10px)}
+}
+
+.giftText{
+font-size:18px;
+font-weight:600;
+color:#00ffcc;
+text-shadow:0 0 10px rgba(0,255,200,0.3);
+}
+
+.box{
+width:140px;
+height:60px;
+background:linear-gradient(45deg,#ff3b3b,#ff8c1a);
+border-radius:12px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 0 25px rgba(255,140,0,0.4);
+transition:0.3s;
+}
+
+.box:hover{
+transform:scale(1.08);
+}
+
+/* FINAL */
+#final{
+display:none;
+width:100%;
+height:100%;
+background:#000;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+}
+
+.title{
+font-size:20px;
+margin-bottom:15px;
+color:#ff8c1a;
+}
+
+.message{
+max-width:750px;
+font-size:16px;
+line-height:1.6;
+margin-bottom:15px;
+}
+
+img{
+width:240px;
+height:240px;
+object-fit:cover;
+border-radius:15px;
+border:2px solid #e50914;
+margin-top:10px;
+}
+
+.photoText{
+margin-top:8px;
+color:#ffcccc;
+}
+
+.confetti{
+position:absolute;
+font-size:18px;
+animation:explode 1.5s ease-out forwards;
+}
+
+@keyframes explode{
+to{
+transform:translate(var(--x), var(--y));
+opacity:0;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="intro" class="center">
+<h1>👑 YUSUF BEKTAŞ 👑</h1>
+</div>
+
+<!-- PIN -->
+<div id="pinScreen" class="center">
+
+<h2>Baba Doğum Yılı'nı Gir! 😊</h2>
+
+<div id="dots">• • • •</div>
+
+<div class="keypad">
+<button onclick="press(1)">1</button>
+<button onclick="press(2)">2</button>
+<button onclick="press(3)">3</button>
+<button onclick="press(4)">4</button>
+<button onclick="press(5)">5</button>
+<button onclick="press(6)">6</button>
+<button onclick="press(7)">7</button>
+<button onclick="press(8)">8</button>
+<button onclick="press(9)">9</button>
+<button onclick="clearPin()">C</button>
+<button onclick="press(0)">0</button>
+<button onclick="check()">OK</button>
+</div>
+
+</div>
+
+<!-- GIFT -->
+<div id="giftScreen" class="center">
+
+<div class="giftArea">
+<div class="giftIcon">🎁</div>
+<div class="giftText">✨ Baba Hediye Kutusuna Tıkla ✨</div>
+</div>
+
+<div class="box" onclick="openGift()">AÇ</div>
+
+</div>
+
+<!-- FINAL -->
+<div id="final">
+
+<div class="title">💙 Babalar Günün Kutlu Olsun Canım Babam 💙</div>
+
+<div class="message" id="msg"></div>
+
+<img src="baba.jpg">
+
+<div class="photoText">❤️ Canım Babam ❤️</div>
+
+</div>
+
+<script>
+
+let pin="";
+let target="1985";
+
+function press(n){
+pin+=n;
+document.getElementById("dots").innerText="• ".repeat(pin.length);
+}
+
+function clearPin(){
+pin="";
+document.getElementById("dots").innerText="• • • •";
+}
+
+function check(){
+if(pin===target){
+document.getElementById("pinScreen").style.display="none";
+document.getElementById("giftScreen").style.display="flex";
+}else{
+clearPin();
+}
+}
+
+function burst(){
+for(let i=0;i<80;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.innerHTML="🎉";
+
+let angle=Math.random()*2*Math.PI;
+let dist=Math.random()*300;
+
+c.style.setProperty("--x",Math.cos(angle)*dist+"px");
+c.style.setProperty("--y",Math.sin(angle)*dist+"px");
+
+c.style.left="50%";
+c.style.top="50%";
+
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),1500);
+}
+}
+
+function openGift(){
+
+document.getElementById("giftScreen").style.display="none";
+document.getElementById("final").style.display="flex";
+
+let text=`Hayat sahnesinde arkamda duran en büyük çınarım, gölgesinde huzur bulduğum canım babam... 🌳✨ Küçüklüğümde elimi tuttuğunda hissettiğim o sonsuz güven, bugün bile attığım her adımda yolumu aydınlatıyor. 👣💡 Bana sadece hayatta kalmayı değil, onurlu ve güçlü bir insan olmayı da sen öğrettin. 💪❤️ Kalbimin en özel yerindeki kahramanım, Babalar Günün kutlu olsun! İyi ki varsın... 🎉👨‍👧‍👦`;
+
+let i=0;
+let el=document.getElementById("msg");
+el.innerHTML="";
+
+function write(){
+if(i<text.length){
+el.innerHTML+=text[i];
+i++;
+setTimeout(write,20);
+}
+}
+write();
+
+burst();
+}
+
+</script>
+
+</body>
+</html>
